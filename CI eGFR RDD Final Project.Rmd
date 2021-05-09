@@ -29,15 +29,13 @@ kidney40 <- kidney %>%
 # 1 Introduction
 The human kidney filters toxins, electrolytes, and proteins out of the bloodstream, constantly regulating the balance of the blood's molecular composition through filtering. If the kidneys fail to adequately balance the bloodstream through filtration, the patient is categorized into one of five stages of chronic kidney disease. Physicians use established eGFR cutoffs to help sort patients into stages of kidney disease. At different stages, patients jump to different treatments. For instance, at the higher stages (lower kidney function), patients begin to receive life-saving dialysis treatments, among other intensive forms of care. Using data on eGFR, I will run an Regression Discontinuity analysis to see whether there is a discontinuity in health outcomes on either side of the cutoff of 30 eGFR. Below an eGFR of 30, patients move to Stage 4 kidney disease and being to receive extreme an intensive treatment. This Regression Discontinuity analysis will seek to determine whether patients on either side of this treatment cutoff have discontinuous health outcomes. The outcome being measured is "time to event," which is the amount of months between when the eGFR measurement occurred and when the patient reached a diagnosis of Stage *5* kidney disease. The analysis therefore only applies to individuals who reached stage 5 kidney disease. The main concern of the paper is therefore whether being just above the stage 4 eGFR cutoff (and therefore being less likely to receive more advanced care) causes patients to reach stage 5 disease *sooner* than the patients just below the cutoff. The null hypothesis is that there is no difference in the amount of months to stage 5 kidney disease between patients just below and just above the eGFR stage 4 cutoff.
 
-The plot of the data below shows the time-to-event (TTE) on the y-axis and eGFR on the x-axis. Lower TTE values imply poor health outcomes, and the vertical line at eGFR=30 shows the cutoff for a Stage 4 kidney disease diagnosis. Visually, there does seem to be poor health outcomes just to the right of the cutoff that could be prevented if the cutoff was slightly raised to capture marginally more people in the intensive treatment. However, there are also still very poor health outcomes just below the cutoff, so it is unclear from this visualization whether a discontinuity exists.
-
-
+Figure 1 below shows the time-to-event (TTE)--or number of months to Stage 5 kidney disease--on the y-axis and eGFR on the x-axis. Lower counts of months imply poor health outcomes, and the vertical line at an eGFR of 30 shows the cutoff for a Stage 4 kidney disease diagnosis. Visually, there does seem to be poor health outcomes just to the right of the cutoff that could be prevented if the cutoff was slightly raised to capture marginally more people in the intensive treatment. However, there are also still very poor health outcomes just below the cutoff, so it is unclear from this visualization whether a discontinuity exists.
 
 ```{r initial_visuals, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(data=kidney50) +
   geom_point(mapping = aes(x = egfr, y= time_event_ckd5)) + 
   geom_vline(aes(xintercept=30)) +
-  labs(title = "Figure 1: Running variable vs Outcome (eGFC vs Time-To-Event)",
+  labs(title = "Figure 1: Running variable vs Outcome (eGFC vs Time-to-Event)",
        x = "eGFR",
        y = "# Months to Stage 5 Kidney Disease")
 ```
@@ -81,7 +79,6 @@ mcrary <- rdplotdensity(density, kidney$egfr, title = "Figure 3: McCrary Density
 summary(density)
 ```
  
-\newpage
 # 4 Covariate Balance
 
 ## 4.1 RD Estimation for Prtreatment Covariates: Male & Age
@@ -175,7 +172,7 @@ kidney50_tight2 <- kidney50_tight2 %>%
   mutate(gg_group = case_when(egfr >= 30 ~ 1, TRUE ~ 0))
 
 ```
-\newpage
+
 ```{r covar_balance4, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 #Model "MALE" Stability Using Linear Model and Quadratic models
 lmale <- ggplot(kidney50_tight2, aes(egfr, male)) +
