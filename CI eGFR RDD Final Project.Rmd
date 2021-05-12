@@ -1,5 +1,5 @@
 ---
-title: "Regression Discontinuity Evaluation of Kidney Disease Classification Cutoff Effects on Health Outcomes"
+title: "Regression Discontinuity Evaluation of the Effect of Kidney Disease Classifications on Health Outcomes"
 author: "Robert Toto (RVT245)"
 date: "5/12/2021"
 output: pdf_document
